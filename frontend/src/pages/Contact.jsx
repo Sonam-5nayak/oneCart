@@ -13,17 +13,17 @@ function Contact() {
         </div>
         <div className=' lg:w-[50%] w-[80%] flex items-start justify-center  gap-[20px] flex-col mt-[20px] lg:mt-[0px] ' >
           <p className=' lg:w-[80%] w-[100%] text-white font-bold lg:text-[18px] text-[15px] '> Our Store</p>
-          <p className=' lg:w-[80%] w-[100%] text-white md:text-[16px] text-[13px] '>
+          <div className=' lg:w-[80%] w-[100%] text-white md:text-[16px] text-[13px] '>
             <p>12345 Random Station</p>
 
             <p>random city, state, India</p>
-          </p>
+          </div>
 
-          <p className=' lg:w-[80%] w-[100%] text-white md:text-[16px] text-[13px] '>
+          <div className=' lg:w-[80%] w-[100%] text-white md:text-[16px] text-[13px] '>
             <p>tel - +91 7539012011</p>
 
             <p>Email: admin@onecart.com </p>
-          </p>
+          </div>
           <p className=' lg:w-[80%] w-[100%] text-[15px] text-[white] lg:text-[18px] mt-[10px] font-bold '>Careers at oneKART</p>
           <p className=' lg:w-[80%] w-[100%] text-[white] md:text-[16px] text-[13px]  ' >Learn more about our teams and job openings</p>
           <button className=' px-[30px] py-[20px] flex items-center justify-center text-[white] bg-transparent border active:bg-slate-600 rounded-md'  >Explore Jobs</button>
