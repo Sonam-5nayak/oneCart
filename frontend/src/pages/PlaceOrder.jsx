@@ -100,7 +100,7 @@ function PlaceOrder() {
   }
 
   return (
-    <div className='w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col md:flex-row items-start justify-center gap-8 p-4'>
+    <div className='  w-full pb-32 lg:pb-0 w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col md:flex-row items-start justify-center gap-8 p-4'>
       
       {/* Delivery Form */}
       <div className='lg:w-1/2 w-full flex justify-center mt-8 md:mt-0'>
