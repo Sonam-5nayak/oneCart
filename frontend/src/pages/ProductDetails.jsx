@@ -33,20 +33,15 @@ function ProductDetails() {
     })
   }
 
-
-
   useEffect(() => {
     if (productData) {
       console.log(productData);
-
     }
   }, [productData]);
 
   useEffect(() => {
-
     fetchProductData()
   }, [productId, products])
-
 
   // ✅ handle Add to Cart with loading and toast
   const handleAddToCart = async () => {
@@ -55,7 +50,6 @@ function ProductDetails() {
       return;
     }
     try {
-
       await addtoCart(productData._id, size);
       toast.success("Product successfully added to cart!");
     } catch (err) {
@@ -64,60 +58,57 @@ function ProductDetails() {
     }
   };
 
-
   return productData ? (
-
     <div>
-      <div className=' w-[99vw] h-[130vh] md:h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] flex items-center justify-start flex-col lg:flex-row gap-[20px] ' >
-        <div className=' lg:w-[50vw] md:w-[90vw] lg:h-[90vh] h-[50vh] mt-[70px] flex items-center justify-center md:gap-[10px] gap-[30px] flex-col-reverse lg:flex-row  ' >
-          <div className=' lg:w-[20%] md:w-[80%] h-[10%] lg:h-[80%] flex items-center justify-center gap-[50px] lg:gap-[20px] lg:flex-col flex-wrap ' >
-            <div className='md:w-[100px] w-[50px] h-[50px] md:h-[110px] bg:slate-300 border-[1px] border-[#80808049] rounded-md ' >
-              <img src={image1} alt="" className='w-[100%] h-[100%] cursor-pointer rounded-md ' onClick={() => setImage(image1)} />
-            </div>
-            <div className='md:w-[100px] w-[50px] h-[50px] md:h-[110px] bg:slate-300 border-[1px] border-[#80808049] rounded-md ' >
-              <img src={image2} alt="" className='w-[100%] h-[100%] cursor-pointer rounded-md ' onClick={() => setImage(image2)} />
-            </div>
-            <div className='md:w-[100px] w-[50px] h-[50px] md:h-[110px] bg:slate-300 border-[1px] border-[#80808049] rounded-md ' >
-              <img src={image3} alt="" className='w-[100%] h-[100%] cursor-pointer rounded-md ' onClick={() => setImage(image3)} />
-            </div>
-            <div className='md:w-[100px] w-[50px] h-[50px] md:h-[110px] bg:slate-300 border-[1px] border-[#80808049] rounded-md ' >
-              <img src={image4} alt="" className='w-[100%] h-[100%] cursor-pointer rounded-md ' onClick={() => setImage(image4)} />
-            </div>
+      {/* Main Section */}
+      <div className='w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col lg:flex-row items-center justify-start gap-5 py-10'>
+        
+        {/* Images */}
+        <div className='lg:w-1/2 w-[90%] flex flex-col-reverse lg:flex-row items-center justify-center gap-4'>
+          <div className='lg:w-[20%] w-full flex lg:flex-col flex-row flex-wrap items-center justify-center gap-3'>
+            {[image1, image2, image3, image4].map((img, idx) => (
+              <div key={idx} className='w-[60px] h-[60px] md:w-[100px] md:h-[110px] border border-gray-500 rounded-md'>
+                <img src={img} alt="" className='w-full h-full cursor-pointer rounded-md object-cover'
+                  onClick={() => setImage(img)} />
+              </div>
+            ))}
           </div>
-          <div className=' lg:w-[60%] w-[80%] lg:h-[78%] h-[70%] border-[1px] border-[#80808049] rounded-md overflow-hidden  ' >
-            <img src={image} alt="" className=' w-[100%] lg:h-[100%] h-[100%] text-[30px] text-white text-center rounded-md object-fill ' />
+          <div className='lg:w-[70%] w-full h-[300px] md:h-[500px] border border-gray-500 rounded-md overflow-hidden'>
+            <img src={image} alt="" className='w-full h-full rounded-md object-contain bg-black' />
           </div>
         </div>
-        <div className='lg:w-[50vw] w-[100vw] lg:h-[75vh] h-[40vh] lg:mt-[80px] flex items-start justify-start flex-col py-[20px] px-[30px] md:pb-[20px] md:pl-[20px] lg:pl-[0px] lg:px-[0px] lg:py-[0px] gap-[10px]'>
-          <h1 className='text-[40px] font-semibold text-[aliceblue]'>
-            {productData.name.toUpperCase()}
-          </h1>
-          <div className=' flex items-center gap-1 ' >   <FaStar className=' text-[20px] fill-[#FFD700] ' />
-            <FaStar className=' text-[20px] fill-[#FFD700] ' />
-            <FaStar className=' text-[20px] fill-[#FFD700] ' />
-            <FaStar className=' text-[20px] fill-[#FFD700] ' />
-            < FaStarHalfAlt className=' text-[20px] fill-[#FFD700] ' />
-            <p className='text-[18px] font-semibold pl-[5px] text-[white]'>
-              (124)
-            </p>
-          </div>
-          <p className='text-[30px] font-semibold pl-[5px] text-[white]'>
-            {currency} {productData.price}
-          </p>
 
-          <p className='w-[80%] md:w-[60%] text-[20px] font-semibold pl-[5px] text-[white]'>
+        {/* Product Details */}
+        <div className='lg:w-1/2 w-full flex flex-col gap-4 px-5 text-white'>
+          <h1 className='text-2xl md:text-4xl font-semibold'>{productData.name.toUpperCase()}</h1>
+
+          {/* Ratings */}
+          <div className='flex items-center gap-1'>
+            <FaStar className='text-yellow-400' />
+            <FaStar className='text-yellow-400' />
+            <FaStar className='text-yellow-400' />
+            <FaStar className='text-yellow-400' />
+            <FaStarHalfAlt className='text-yellow-400' />
+            <p className='text-lg font-semibold pl-2'>(124)</p>
+          </div>
+
+          {/* Price */}
+          <p className='text-xl md:text-2xl font-bold'>{currency} {productData.price}</p>
+
+          {/* Description */}
+          <p className='text-base md:text-lg w-full md:w-[80%]'>
             {productData.description} and Stylish, breathable cotton shirt with a modern slim fit.
             Easy to wash, super comfortable, and designed for effortless style.
           </p>
-          <div className='flex flex-col gap-[10px] my-[10px]'>
-            <p className='text-[25px] font-semibold pl-[5px] text-[white]'>Select Size</p>
 
-            <div className='flex gap-2'>
+          {/* Sizes */}
+          <div className='flex flex-col gap-3 mt-3'>
+            <p className='text-lg font-semibold'>Select Size</p>
+            <div className='flex gap-2 flex-wrap'>
               {productData.sizes.map((item, index) => (
                 <button
                   key={index}
-                  className={`border py-2 px-4 bg-slate-300 rounded-md 
-          ${item === size ? 'bg-black text-[#2f97f1] text-[20px]' : ''}`}
+                  className={`border py-2 px-4 rounded-md ${item === size ? 'bg-black text-blue-400 text-lg' : 'bg-slate-300 text-black'}`}
                   onClick={() => setSize(item)}
                 >
                   {item}
@@ -125,41 +116,41 @@ function ProductDetails() {
               ))}
             </div>
 
-            <button className='text-[16px] active:bg-slate-500 cursor-pointer bg-[#495b61c9] py-[10px] px-[20px] rounded-2xl mt-[10px] border-[1px] border-[#80808049] text-white shadow-md shadow-black flex items-center justify-center gap-2' onClick={handleAddToCart} >
+            <button
+              className='text-sm md:text-base active:bg-slate-500 cursor-pointer bg-[#495b61c9] py-3 px-6 rounded-2xl mt-3 border border-gray-500 text-white shadow-md shadow-black flex items-center justify-center gap-2'
+              onClick={handleAddToCart}>
               Add To Cart
             </button>
-
           </div>
-          <div className='w-[90%] h-[1px] bg-slate-700'></div>
-          <div className='w-[80%] text-[16px] text-white'>
-            <p> 100% Original Product.</p>
-            <p> Cash on delivery is available on this product.</p>
-            <p> Easy return and exchange policy within 7 days.</p>
+
+          <div className='w-full h-[1px] bg-slate-700 my-3'></div>
+          <div className='text-sm md:text-base'>
+            <p>✅ 100% Original Product</p>
+            <p>💰 Cash on delivery available</p>
+            <p>🔄 Easy return and exchange within 7 days</p>
           </div>
         </div>
       </div>
-      <div className='w-[100%] min-h-[70vh] bg-gradient-to-l from-[#141414] to-[#0c2025] 
-                flex items-start justify-start flex-col overflow-x-hidden'>
 
-        <div className='flex px-[20px] mt-[90px] lg:ml-[80px] ml-[0px] lg:mt-[0px]'>
-          <p className='border px-5 py-3 text-sm text-white cursor-pointer'>
-            Description
-          </p>
-          <p className='border px-5 py-3 text-sm text-white cursor-pointer'>
-            Reviews (124)
+      {/* Description & Reviews */}
+      <div className='w-full min-h-[70vh] bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col items-start justify-start px-5 md:px-10 py-10'>
+        <div className='flex flex-wrap gap-3 mb-5'>
+          <p className='border px-5 py-3 text-sm md:text-base text-white cursor-pointer'>Description</p>
+          <p className='border px-5 py-3 text-sm md:text-base text-white cursor-pointer'>Reviews (124)</p>
+        </div>
+
+        <div className='w-full md:w-[80%] min-h-[150px] bg-[#3336397c] border text-white text-sm md:text-base lg:text-lg p-5 rounded-md'>
+          <p>
+            Upgrade your wardrobe with this stylish slim-fit cotton shirt, available now on OneKART.
+            Crafted from breathable, high-quality fabric, it offers all-day comfort and effortless style.
+            Easy to maintain and perfect for any setting, this shirt is a must-have for those who value both fashion and function.
           </p>
         </div>
-        <div className=' w-[80%] md:h-[150px] h-[220px] bg-[#3336397c] border text-white  text-[13px] md:text-[15px] lg:text-[20px] px-[10px] md:px-[30px] lg:ml-[100px] ml-[20px] ' >
-          <p className=' w-[95%] h-[90%] flex items-center justify-center ' >
-            Upgrade your wardrobe with this stylish slim-fit cotton shirt, available npw on OneKART . Crafted from breathable, high-quality fabric, it offers all-day comfort and effortless style. Easy to maintain and perfect for any setting, this shirt is a must-have essential for those who value both fashion and function.
-          </p>
-        </div>
+
         <RelatedProduct category={productData.category} subCategory={productData.subCategory} currentProductId={productData._id} />
-
       </div>
-
     </div>
-  ) : <div className=' opacity-0 ' ></div>
+  ) : <Loading />
 }
 
 export default ProductDetails
