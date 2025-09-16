@@ -50,10 +50,7 @@ function Cart() {
                 src={productData.image1}
                 alt=""
               />
-                </div>
-
-              {/* Product Info */}
-              <div className="flex items-start justify-center flex-col gap-[10px]">
+                <div className="flex items-start justify-center flex-col gap-[10px]">
                 <p className="md:text-[25px] text-[20px] text-[#f3f9fc] ">
                   {productData.name}
                 </p>
@@ -66,6 +63,8 @@ function Cart() {
                 </p>
               </div>
               </div>
+                 {/* Product Info */}
+              
                <input
                     type="number"
                     min={1}
@@ -81,6 +80,10 @@ function Cart() {
                     className="text-[#9ff9f9] w-[25px] h-[25px] absolute top-[50%] md:top-[48%] md:right-[5%] right-1 cursor-pointer"
                     onClick={() => updateQuantity(item._id, item.size, 0)}
                   />
+                
+                </div>
+
+             
                 </div>
              
           )
