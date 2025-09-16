@@ -28,7 +28,7 @@ function Cart() {
   }, [cartItem]);
 
   return (
-    <div className="w-full min-h-screen p-5 bg-gradient-to-l from-[#141414] to-[#0c2025]">
+    <div className="w-full min-h-screen p-5 bg-gradient-to-l from-[#141414] pb-32 to-[#0c2025]">
       {/* Title */}
       <div className="text-center mt-20 mb-10">
         <Title text1="YOUR" text2="CART" />
@@ -95,7 +95,7 @@ function Cart() {
         <div className="w-full sm:w-[450px]">
           <CartToatal />
           <button
-            className="text-[18px] hover:bg-slate-500 cursor-pointer bg-[#518080b4] py-3 px-10 rounded-2xl text-white flex items-center justify-center gap-4 border border-[#9ff9f9] mt-6 w-full"
+            className='w-full text-[18px] hover:bg-slate-500 cursor-pointer bg-[#518080b4] py-3 px-10 rounded-2xl text-white flex items-center justify-center gap-4 border border-[#9ff9f9] mt-6'
             onClick={() => {
               if (cartData.length > 0) {
                 navigate("/placeorder");
