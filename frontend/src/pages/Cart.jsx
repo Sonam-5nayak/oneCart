@@ -1,17 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
-import Title from '../component/Title'
-import { shopDataContext } from '../context/ShopContext'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from "react";
+import Title from "../component/Title";
+import { shopDataContext } from "../context/ShopContext";
+import { useNavigate } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import CartToatal from '../component/CartToatal';
+import CartToatal from "../component/CartToatal";
 
 function Cart() {
-  const { products, currency, cartItem, updateQuantity } = useContext(shopDataContext)
-  const [cartData, setCartData] = useState([])
-  const navigate = useNavigate()
+  const { products, currency, cartItem, updateQuantity } =
+    useContext(shopDataContext);
+  const [cartData, setCartData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const tempData = []
+    const tempData = [];
     for (const items in cartItem) {
       for (const item in cartItem[items]) {
         if (cartItem[items][item] > 0) {
@@ -19,94 +20,96 @@ function Cart() {
             _id: items,
             size: item,
             quantity: cartItem[items][item],
-          })
+          });
         }
       }
     }
-    setCartData(tempData)
-  }, [cartItem])
+    setCartData(tempData);
+  }, [cartItem]);
 
   return (
-    <div className="w-[99vw] min-h-[100vh] p-[20px] overflow-hidden bg-gradient-to-l from-[#141414] to-[#0c2025]">
+    <div className="w-full min-h-screen p-5 bg-gradient-to-l from-[#141414] to-[#0c2025]">
       {/* Title */}
-      <div className=" h-[8%] w-[100%] text-center mt-[80px]">
+      <div className="text-center mt-20 mb-10">
         <Title text1="YOUR" text2="CART" />
       </div>
 
       {/* Cart Items */}
-      <div className="w-[100%] h-[92%] flex flex-wrap gap-[20px] ">
+      <div className="flex flex-col gap-6">
         {cartData.map((item, index) => {
-          const productData = products.find((product) => product._id === item._id)
+          const productData = products.find(
+            (product) => product._id === item._id
+          );
           return (
             <div
               key={index}
-              className="w-[100%] h-[10%] border-t border-b "
+              className="w-full flex flex-col md:flex-row items-start md:items-center gap-6 bg-[#51808048] p-4 rounded-2xl border border-[#4d8890]"
             >
               {/* Product Image */}
-              <div  className=' w-[100%] h-[80%] flex items-start gap-6 bg-[#51808048] py-[10px] px-[20px] rounded-2xl relative' > 
-    
               <img
-                className="w-[100px] h-[100px] md:w-32 rounded-md "
-                src={productData.image1}
-                alt=""
+                className="w-[100px] h-[100px] md:w-32 rounded-md object-cover"
+                src={productData?.image1}
+                alt={productData?.name}
               />
-                <div className="flex items-start justify-center flex-col gap-[10px]">
-                <p className="md:text-[25px] text-[20px] text-[#f3f9fc] ">
-                  {productData.name}
-                </p>
-              <div className='flex items-center gap-[20px] ' >
-                 <p className="text-[20px] text-[#aaf4e7] ">
-                  {currency} {productData.price}
-                </p>
-                <p className="w-[40px] h-[40px] flex items-center justify-center text-[16px] text-white bg-[#518080b4] rounded-md border-[1px] mt-[5px] border-[#9ff9f9]">
-                  {item.size}
-                </p>
-              </div>
-              </div>
-                 {/* Product Info */}
-              
-               <input
-                    type="number"
-                    min={1}
-                    defaultValue={item.quantity}
-                    className="md:max-w-20 max-w-10 md:px-2 md:py-2 py-[5px]  px-[10px] text-white text-[18px] font-semibold bg-[#518080b4] absolute md:top-[40%]  top-[46%] left-[75%] md:left-[50%] border-[1px] border-[#9ff9f9] rounded-md"
-                    onChange={(e) =>
-                      e.target.value === '' || e.target.value === '0'
-                        ? null
-                        : updateQuantity(item._id, item.size, Number(e.target.value))
-                    }
-                  />
-                  <RiDeleteBin6Line
-                    className="text-[#9ff9f9] w-[25px] h-[25px] absolute top-[50%] md:top-[48%] md:right-[5%] right-1 cursor-pointer"
-                    onClick={() => updateQuantity(item._id, item.size, 0)}
-                  />
-                
-                </div>
 
-             
+              {/* Product Info */}
+              <div className="flex flex-col gap-2 flex-1">
+                <p className="text-[20px] md:text-[24px] text-[#f3f9fc] font-medium">
+                  {productData?.name}
+                </p>
+                <div className="flex items-center gap-5">
+                  <p className="text-[18px] text-[#aaf4e7]">
+                    {currency} {productData?.price}
+                  </p>
+                  <p className="w-[40px] h-[40px] flex items-center justify-center text-[16px] text-white bg-[#518080b4] rounded-md border border-[#9ff9f9]">
+                    {item.size}
+                  </p>
                 </div>
-             
-          )
+              </div>
+
+              {/* Quantity Input & Delete */}
+              <div className="flex items-center gap-4 md:ml-auto">
+                <input
+                  type="number"
+                  min={1}
+                  defaultValue={item.quantity}
+                  className="w-16 text-white text-[16px] font-semibold bg-[#518080b4] py-2 px-3 rounded-md border border-[#9ff9f9]"
+                  onChange={(e) =>
+                    e.target.value === "" || e.target.value === "0"
+                      ? null
+                      : updateQuantity(item._id, item.size, Number(e.target.value))
+                  }
+                />
+                <RiDeleteBin6Line
+                  className="text-[#9ff9f9] w-6 h-6 cursor-pointer hover:text-red-400"
+                  onClick={() => updateQuantity(item._id, item.size, 0)}
+                />
+              </div>
+            </div>
+          );
         })}
       </div>
-<div className='flex justify-start items-end my-20'>
-  <div className='w-full sm:w-[450px]'>
-    <CartToatal />
-    <button 
-      className='text-[18px] hover:bg-slate-500 cursor-pointer bg-[#5180848] py-[10px] px-[50px] rounded-2xl text-white flex items-center justify-center gap-[20px] border-[1px] border-[#8088049] ml-[30px] mt-[20px]' 
-      onClick={() => {if(cartData.length>0){
-        navigate("/placeorder");
-      }
-        else{console.log(" Your cart is empty!")}             
-      }}
-    >
-      PROCEED TO CHECKOUT
-    </button>
-  </div>
-</div>
 
+      {/* Cart Total & Checkout Button */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-10 my-12">
+        <div className="w-full sm:w-[450px]">
+          <CartToatal />
+          <button
+            className="text-[18px] hover:bg-slate-500 cursor-pointer bg-[#518080b4] py-3 px-10 rounded-2xl text-white flex items-center justify-center gap-4 border border-[#9ff9f9] mt-6 w-full"
+            onClick={() => {
+              if (cartData.length > 0) {
+                navigate("/placeorder");
+              } else {
+                console.log("Your cart is empty!");
+              }
+            }}
+          >
+            PROCEED TO CHECKOUT
+          </button>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Cart
+export default Cart;
