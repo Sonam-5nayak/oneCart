@@ -13,6 +13,7 @@ function PlaceOrder() {
   let navigate = useNavigate()
   const { cartItem, setCartItem, getCartAmount, delivery_fee, products } = useContext(shopDataContext)
   let { serverUrl } = useContext(authDataContext)
+
   let [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -26,7 +27,8 @@ function PlaceOrder() {
   })
 
   const onChangeHandler = (e) => {
-    const { name, value } = e.target
+    const name = e.target.name;
+    const value = e.target.value;
     setFormData(data => ({ ...data, [name]: value }))
   }
 
@@ -72,21 +74,25 @@ function PlaceOrder() {
         items: orderItems,
         amount: getCartAmount() + delivery_fee
       }
-
-      if (method === 'cod') {
-        const result = await axios.post(serverUrl + "/api/order/placeorder", orderData, { withCredentials: true })
-        if (result.data) {
-          toast.success("Order placed successfully 🎉")
-          setCartItem({})
-          navigate("/order")
-        } else {
-          toast.error("Failed to place order ❌")
-        }
-      } else if (method === 'razorpay') {
-        const resultRazorpay = await axios.post(serverUrl + "/api/order/razorpay", orderData, { withCredentials: true })
-        if (resultRazorpay.data) {
-          initPay(resultRazorpay.data)
-        }
+      switch (method) {
+        case 'cod':
+          const result = await axios.post(serverUrl + "/api/order/placeorder", orderData, { withCredentials: true })
+          if (result.data) {
+            toast.success("Order placed successfully 🎉")
+            setCartItem({})
+            navigate("/order")
+          } else {
+            toast.error("Failed to place order ❌")
+          }
+          break;
+        case 'razorpay':
+          const resultRazorpay = await axios.post(serverUrl + "/api/order/razorpay", orderData, { withCredentials: true })
+          if (resultRazorpay.data) {
+            initPay(resultRazorpay.data)
+          }
+          break;
+        default:
+          break;
       }
     } catch (error) {
       console.log(error)
@@ -94,69 +100,57 @@ function PlaceOrder() {
   }
 
   return (
-    <div className='w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col md:flex-row items-start justify-center gap-10 p-5 pb-32'>
+    <div className='w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col md:flex-row items-start justify-center gap-8 p-4'>
       
       {/* Delivery Form */}
-      <div className='lg:w-1/2 w-full'>
-        <form onSubmit={onSubmitHandler} className='w-full bg-transparent'>
-          <div className='py-3'>
-            <Title text1={'DELIVERY'} text2={'INFORMATION'} />
+      <div className='lg:w-1/2 w-full flex justify-center mt-8 md:mt-0'>
+        <form onSubmit={onSubmitHandler} className='w-full max-w-xl space-y-4'>
+          <Title text1={'DELIVERY'} text2={'INFORMATION'} />
+
+          <div className='flex gap-2'>
+            <input type="text" placeholder='First name' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' onChange={onChangeHandler} name='firstName' value={formData.firstName} />
+            <input type="text" placeholder='Last name' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' onChange={onChangeHandler} name='lastName' value={formData.lastName} />
           </div>
 
-          <div className='flex gap-3 mb-3'>
-            <input type="text" name='firstName' value={formData.firstName} onChange={onChangeHandler}
-              placeholder='First name' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' required />
-            <input type="text" name='lastName' value={formData.lastName} onChange={onChangeHandler}
-              placeholder='Last name' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' required />
+          <input type="email" placeholder='Email address' className='w-full h-12 rounded-md bg-slate-700 text-white px-4' onChange={onChangeHandler} name='email' value={formData.email} />
+          <input type="text" placeholder='Street' className='w-full h-12 rounded-md bg-slate-700 text-white px-4' onChange={onChangeHandler} name='street' value={formData.street} />
+
+          <div className='flex gap-2'>
+            <input type="text" placeholder='City' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' onChange={onChangeHandler} name='city' value={formData.city} />
+            <input type="text" placeholder='State' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' onChange={onChangeHandler} name='state' value={formData.state} />
           </div>
 
-          <input type="email" name='email' value={formData.email} onChange={onChangeHandler}
-            placeholder='Email address' className='w-full h-12 rounded-md bg-slate-700 text-white px-4 mb-3' required />
-
-          <input type="text" name='street' value={formData.street} onChange={onChangeHandler}
-            placeholder='Street' className='w-full h-12 rounded-md bg-slate-700 text-white px-4 mb-3' required />
-
-          <div className='flex gap-3 mb-3'>
-            <input type="text" name='city' value={formData.city} onChange={onChangeHandler}
-              placeholder='City' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' required />
-            <input type="text" name='state' value={formData.state} onChange={onChangeHandler}
-              placeholder='State' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' required />
+          <div className='flex gap-2'>
+            <input type="text" placeholder='Pincode' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' onChange={onChangeHandler} name='pinCode' value={formData.pinCode} />
+            <input type="text" placeholder='Country' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' onChange={onChangeHandler} name='country' value={formData.country} />
           </div>
 
-          <div className='flex gap-3 mb-3'>
-            <input type="text" name='pinCode' value={formData.pinCode} onChange={onChangeHandler}
-              placeholder='Pincode' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' required />
-            <input type="text" name='country' value={formData.country} onChange={onChangeHandler}
-              placeholder='Country' className='w-1/2 h-12 rounded-md bg-slate-700 text-white px-4' required />
-          </div>
-
-          <input type="text" name='phone' value={formData.phone} onChange={onChangeHandler}
-            placeholder='Phone' className='w-full h-12 rounded-md bg-slate-700 text-white px-4 mb-5' required />
-
-          {/* Submit Button */}
-          <button type='submit'
-            className='w-full md:w-auto px-10 py-3 bg-[#3bcee848] text-white rounded-2xl border border-[#80808049] hover:bg-slate-600'>
-            PLACE ORDER
-          </button>
+          <input type="text" placeholder='Phone' className='w-full h-12 rounded-md bg-slate-700 text-white px-4' onChange={onChangeHandler} name='phone' value={formData.phone} />
         </form>
       </div>
 
-      {/* Cart & Payment Section */}
+      {/* Cart & Payment */}
       <div className='lg:w-1/2 w-full flex flex-col items-center gap-6'>
         <CartToatal />
-        <div className='py-3'>
-          <Title text1={'PAYMENT'} text2={'METHOD'} />
-        </div>
-        <div className='w-full flex flex-col md:flex-row items-center justify-center gap-6'>
-          <button onClick={() => setMethod('razorpay')}
-            className={`w-40 h-14 rounded-md ${method === 'razorpay' ? 'border-4 border-blue-900' : ''}`}>
-            <img src={razorpay} alt="Razorpay" className='w-full h-full object-contain rounded-md' />
+
+        <Title text1={'PAYMENT'} text2={'METHOD'} />
+
+        {/* Payment buttons */}
+        <div className='w-full flex flex-col md:flex-row justify-between items-center gap-4'>
+          <button onClick={() => setMethod('razorpay')} className={`w-40 h-12 rounded-sm ${method === 'razorpay' ? 'border-4 border-blue-900' : ''}`}>
+            <img src={razorpay} className='w-full h-full object-contain rounded-sm' alt="Razorpay" />
           </button>
-          <button onClick={() => setMethod('cod')}
-            className={`w-52 h-14 bg-gradient-to-t from-[#95b3f8] to-white text-sm rounded-md font-bold text-[#332f6f] ${method === 'cod' ? 'border-4 border-blue-900' : ''}`}>
+          <button onClick={() => setMethod('cod')} className={`w-52 h-12 bg-gradient-to-t from-[#95b3f8] to-white text-sm rounded-sm text-[#332f6f] font-bold ${method === 'cod' ? 'border-4 border-blue-900' : ''}`}>
             CASH ON DELIVERY
           </button>
         </div>
+
+        {/* Place Order button */}
+        <button 
+          onClick={onSubmitHandler} 
+          className='w-full md:w-auto text-lg bg-[#3bcee848] py-3 px-8 rounded-2xl text-white mt-6 border border-[#80808049] hover:bg-slate-600'>
+          PLACE ORDER
+        </button>
       </div>
     </div>
   )
