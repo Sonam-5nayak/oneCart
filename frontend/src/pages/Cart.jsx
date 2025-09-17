@@ -28,7 +28,7 @@ function Cart() {
   }, [cartItem]);
 
   return (
-    <div className="w-full min-h-screen p-5 bg-gradient-to-l from-[#141414] pb-32 to-[#0c2025]">
+    <div className="w-full min-h-screen p-5 bg-gradient-to-l from-[#141414] to-[#0c2025] pb-32">
       {/* Title */}
       <div className="text-center mt-20 mb-10">
         <Title text1="YOUR" text2="CART" />
@@ -43,45 +43,49 @@ function Cart() {
           return (
             <div
               key={index}
-              className="w-full flex flex-col md:flex-row items-start md:items-center gap-6 bg-[#51808048] p-4 rounded-2xl border border-[#4d8890]"
+              className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-[#51808048] p-4 rounded-2xl border border-[#4d8890]"
             >
               {/* Product Image */}
               <img
-                className="w-[100px] h-[100px] md:w-32 rounded-md object-cover"
+                className="w-[100px] h-[100px] sm:w-28 sm:h-28 rounded-md object-cover"
                 src={productData?.image1}
                 alt={productData?.name}
               />
 
               {/* Product Info */}
               <div className="flex flex-col gap-2 flex-1">
-                <p className="text-[20px] md:text-[24px] text-[#f3f9fc] font-medium">
+                <p className="text-lg sm:text-xl text-[#f3f9fc] font-medium break-words">
                   {productData?.name}
                 </p>
-                <div className="flex items-center gap-5">
-                  <p className="text-[18px] text-[#aaf4e7]">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <p className="text-base sm:text-lg text-[#aaf4e7]">
                     {currency} {productData?.price}
                   </p>
-                  <p className="w-[40px] h-[40px] flex items-center justify-center text-[16px] text-white bg-[#518080b4] rounded-md border border-[#9ff9f9]">
+                  <p className="w-10 h-10 flex items-center justify-center text-sm sm:text-base text-white bg-[#518080b4] rounded-md border border-[#9ff9f9]">
                     {item.size}
                   </p>
                 </div>
               </div>
 
               {/* Quantity Input & Delete */}
-              <div className="flex items-center gap-4 md:ml-auto">
+              <div className="flex items-center gap-3 sm:ml-auto">
                 <input
                   type="number"
                   min={1}
                   defaultValue={item.quantity}
-                  className="w-16 text-white text-[16px] font-semibold bg-[#518080b4] py-2 px-3 rounded-md border border-[#9ff9f9]"
+                  className="w-14 sm:w-16 text-white text-sm sm:text-base font-semibold bg-[#518080b4] py-2 px-3 rounded-md border border-[#9ff9f9]"
                   onChange={(e) =>
                     e.target.value === "" || e.target.value === "0"
                       ? null
-                      : updateQuantity(item._id, item.size, Number(e.target.value))
+                      : updateQuantity(
+                          item._id,
+                          item.size,
+                          Number(e.target.value)
+                        )
                   }
                 />
                 <RiDeleteBin6Line
-                  className="text-[#9ff9f9] w-6 h-6 cursor-pointer hover:text-red-400"
+                  className="text-[#9ff9f9] w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:text-red-400"
                   onClick={() => updateQuantity(item._id, item.size, 0)}
                 />
               </div>
@@ -91,11 +95,11 @@ function Cart() {
       </div>
 
       {/* Cart Total & Checkout Button */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-10 my-12">
+      <div className="flex flex-col sm:flex-row justify-between items-center sm:items-end gap-8 my-12">
         <div className="w-full sm:w-[450px]">
           <CartToatal />
           <button
-            className='w-full text-[18px] hover:bg-slate-500 cursor-pointer bg-[#518080b4] py-3 px-10 rounded-2xl text-white flex items-center justify-center gap-4 border border-[#9ff9f9] mt-6'
+            className="w-full text-base sm:text-lg hover:bg-slate-500 cursor-pointer bg-[#518080b4] py-3 px-6 rounded-2xl text-white flex items-center justify-center gap-3 border border-[#9ff9f9] mt-6"
             onClick={() => {
               if (cartData.length > 0) {
                 navigate("/placeorder");
